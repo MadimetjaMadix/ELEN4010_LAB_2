@@ -30,8 +30,13 @@ router.get('/api/get/:id', function (req, res) {
 })
 
 router.post('/api/create', function (req, res) {
-  console.log('Creating the following student:', req.body.student)
-  classList.push(req.body.student)
+  console.log('Creating the following student:', req.body.studentname)
+  const student = {
+    name: req.body.studentname,
+    studentNumber: req.body.studentnum,
+    electives: [req.body.studentCourse]
+  }
+  classList.push(student)
   res.redirect(req.baseUrl + '/api/list')
 })
 
