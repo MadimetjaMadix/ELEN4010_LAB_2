@@ -1,7 +1,7 @@
 const path = require('path')
 const express = require('express')
 const router = express.Router()
-const classList = [] // our class list array
+const classList = ['Madix', 'Seth'] // our class list array
 
 router.get('/', function (req, res) {
   res.sendFile(path.join(__dirname, 'views', 'class', 'index.html'))
@@ -31,13 +31,8 @@ router.get('/api/get/:id', function (req, res) {
 
 router.post('/api/create', function (req, res) {
   console.log('Creating the following student:', req.body.studentname)
-  const student = {
-    name: req.body.studentname,
-    studentNumber: req.body.studentnum,
-    electives: [req.body.studentCourse]
-  }
-  classList.push(student)
-  res.redirect(req.baseUrl + '/api/list')
+  classList.push(req.body.studentname)
+  res.redirect(req.baseUrl + '/create')
 })
 
 router.post('/api/delete', function (req, res) {
@@ -45,7 +40,7 @@ router.post('/api/delete', function (req, res) {
   const row = req.body.studentrow - 1
   if (!(row > classList.length) && (row > 0)) {
     classList.splice(row, 1)
-    res.redirect(req.baseUrl + '/api/list')
+    res.redirect(req.baseUrl + '/delete')
   } else {
     console.log('There is no student at index ', row)
     res.redirect(req.baseUrl + '/delete')
@@ -58,8 +53,9 @@ router.post('/api/edit', function (req, res) {
   console.log('editing a student entry at index ', row)
   if (!(row > classList.length) && (row >= 0)) {
     classList[row] = details
-    res.redirect(req.baseUrl + '/api/list')
+    res.redirect(req.baseUrl + '/edit')
   } else {
+    alert('There is no student at index ', row)
     console.log('There is no student at index ', row)
     res.redirect(req.baseUrl + '/edit')
   }
